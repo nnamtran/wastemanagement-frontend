@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Image, SafeAreaView, TextInput, KeyboardAvoidingView, ScrollView, Keyboard, TouchableWithoutFeedback, Platform, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 const COLORS = {primary: '#FFE7C9' , white: '#FFF'};
 
@@ -19,8 +19,11 @@ const CameraScreen = ({navigation}) => {
             navigator.navigate('Result', {
                 barcode: barcode
             });
-            setBarcode('')
         } 
+    }
+
+    const handleAI = () => {
+        navigator.navigate('AICamera');
     }
 
 
@@ -79,16 +82,35 @@ const CameraScreen = ({navigation}) => {
                 <BarCodeScanner
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                 style={{ height: '100%', width: '100%' }} />
-            </View>                    
+            </View>           
+            {scanned && <TouchableOpacity style={{marginBottom: 20}} onPress={() => setScanned(false)} color='tomato'>
+                <Text style={{fontFamily: 'JetBrains', fontSize: 18, color: '#ee4900'}}>Scan again?</Text>
+            </TouchableOpacity>     }   
             {/* {scanned && <Button style={{}} title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />} */}
             
-            <View style={{height: 50, width: '80%'}}>          
+            <View style={{height: 50, width: '90%', flexDirection: 'row'}}>          
                 <TouchableOpacity
-                    style={styles.btn}
+                    style={[styles.btn, {
+                        shadowColor: '#171717',
+                        shadowOffset: {width: 0, height: 3},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 0,
+                    }]}
                     onPress={getResult}
                 >
                         <Image source={require('../images/button/button.png')} style={{height: 30, width: 30, resizeMode: 'contain', margin: 10}}/>
-                        <Text style={{fontWeight: 'bold', fontSize: 15}}>RECYCLE NOW!</Text>
+                        <Text style={{fontFamily: 'JetBrains',}}>{barcode}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.btnAI, {
+                        shadowColor: '#171717',
+                        shadowOffset: {width: 0, height: 3},
+                        shadowOpacity: 0.5,
+                        shadowRadius: 0,
+                    }]}
+                    onPress={handleAI}
+                >
+                        <Image source={require('../images/button/upload.png')} style={{height: 40, width: 40, resizeMode: 'contain', margin: 10}}/>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -96,6 +118,7 @@ const CameraScreen = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+    // '#ddf0f6', #dbfadc, 80dbff
     container: {
         flex: 1,
         backgroundColor: '#ddf0f6',
@@ -103,11 +126,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     camera: {
-        marginBottom: "50%",
+        position: 'absolute',
+        top: '12%',
         alignItems: 'center',
-        height: '50%',
-        width: '100%',
+        height: '70%',
+        width: '90%',
         overflow: 'hidden',
+        borderRadius: 10,
         backgroundColor: COLORS.primary
     },
     inputContainer: {
@@ -145,14 +170,31 @@ const styles = StyleSheet.create({
         border: '1px solid red'
     },
     btn: {
-        flex: 1,
+        width: '65%',
         flexDirection: 'row',
+        marginRight: 15,
         height: 50,
-        borderRadius: 5,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
         backgroundColor: '#2FF924',
         justifyContent: 'center',
         alignItems: 'center',
         color: '#FFF',
+        borderRadius: 100,
+    },
+    btnAI: {
+        width: '30%',
+        flexDirection: 'row',
+        height: 50,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,        
+        backgroundColor: '#7de21d',
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 100,
     }
     });

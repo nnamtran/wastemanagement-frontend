@@ -145,7 +145,7 @@ const ResultScreen = () => {
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
                     >
-                    <View style={styles.container}>
+                    <View style={[styles.container, styles.shadowProp]}>
                         <View style={styles.viewContainer}><Text style={styles.title}>{title}</Text></View>
                         <View style={styles.viewContainer}><Text style={styles.barcode}>{barcode}</Text></View>
                         <View style={styles.viewContainer}><Image source={{uri: image}} style={styles.image}/></View>

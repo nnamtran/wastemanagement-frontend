@@ -24,13 +24,16 @@
     "formik": "^2.2.9",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-native": "0.69.5",
+    "react-native": "0.69.6",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-paper": "^4.12.4",
     "react-native-web": "~0.18.7",
     "react-navigation": "^4.4.4",
-    "react-navigation-stack": "^2.10.4"
+    "react-navigation-stack": "^2.10.4",
+    "expo-camera": "~12.3.0",
+    "expo-sharing": "~10.3.0",
+    "expo-media-library": "~14.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
