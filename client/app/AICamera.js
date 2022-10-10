@@ -6,6 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import { StatusBar } from 'expo-status-bar';
+import * as FS from 'expo-file-system';
 const {width, height} = Dimensions.get('window')
 const COLORS = {primary: '#FFE7C9' , white: '#FFF'};
 
@@ -48,7 +49,34 @@ const AICamera = () => {
     }
 
     if (photo) {
-        const sharePic = async() => {
+        const sharePic = async () => {
+            let schema = 'http://';
+            let host = '172.20.10.7';
+            let route = '/image';
+            let port = '5000';
+            let url = '';
+            let content_type = 'image/jpeg';
+
+            url = schema + host + ':' + port + route;
+
+            let response = await FS.uploadAsync(url, photo.uri, {
+                headers: {
+                    'content-type': content_type,
+                },
+                httpMethod: 'POST',
+                uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
+            });
+
+            console.log(response.headers);
+            console.log(response.body);
+
+            let result = response.body;
+
+            navigator.navigate('Result', {
+                result: result,
+                photo: photo.uri
+            });
+
             // This function is for sharing the photo
             // shareAsync(photo.uri).then(() => {
             //     setPhoto(undefined);
@@ -56,18 +84,26 @@ const AICamera = () => {
 
 
             // Sending Photo to AI model here: Follow this format
-            try {
-                const response = await axios.post('https://localhost:serverport/etc', {photo})
+            // try {
+            //     let config = { 
+            //         headers: {  
+            //             'Content-Type': 'application/json',
+            //             'Access-Control-Allow-Origin': '*'
+            //         }
+            //     }
+            //     const response = await axios.post('http://127.0.0.1:5000/',
+            //     {label: 'Test', text: 'Test'}, config
+            //     )
 
-                // This is the response from AI server
-                console.log(response.status) // It should be 201 for success, 404 for page not found, etc...
-                console.log(response.data) // this should be recycle or not recycle
+            //     // This is the response from AI server
+            //     console.log(response.status) // It should be 201 for success, 404 for page not found, etc...
+            //     console.log(response.data) // this should be recycle or not recycle
 
-                // If the console.log(response.data) give results such as recycle or general waste then success. DONE
+            //     // If the console.log(response.data) give results such as recycle or general waste then success. DONE
 
-            } catch(err) {
-                console.log(err)
-            }
+            // } catch(err) {
+            //     console.log(err)
+            // }
         };
 
         const savePhoto = () => {

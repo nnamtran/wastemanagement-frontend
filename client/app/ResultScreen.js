@@ -22,6 +22,7 @@ const ResultScreen = () => {
     const [isRecyclable, setIsRecyclable] = useState(null)
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('...Loading');
+    const [AIimage, setAIimage] = useState('...Loading');
     const [currentSlide, setCurrentSlide] = useState(0);
     const [instructionTitle, setInstructionTitle] = useState('')
     const [instruction, setInstruction] = useState('')
@@ -30,8 +31,8 @@ const ResultScreen = () => {
 
     const route = useRoute();
     const barcode = route.params.barcode;
-    
-
+    const resultAi = route.params.result;
+    const photo = route.params.photo;
     // 9312828005954
     const getBarcode = async () => {
         try {
@@ -48,8 +49,23 @@ const ResultScreen = () => {
         }
     }
 
+    const displayAi = () => {
+        setAIimage(photo)
+        if (resultAi === 'Recycle') {
+            setIsRecyclable(true)
+        } else {
+            setIsRecyclable(false)
+        }
+    }
+
     useEffect(() => {
-        getBarcode()
+        if (barcode) {
+            getBarcode()
+        }
+        else {
+            console.log(resultAi)
+            displayAi()
+        }
     }, []);
 
     const updateCurrentSlideIndex = e => {
@@ -145,11 +161,25 @@ const ResultScreen = () => {
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
                     >
-                    <View style={[styles.container, styles.shadowProp]}>
-                        <View style={styles.viewContainer}><Text style={styles.title}>{title}</Text></View>
-                        <View style={styles.viewContainer}><Text style={styles.barcode}>{barcode}</Text></View>
-                        <View style={styles.viewContainer}><Image source={{uri: image}} style={styles.image}/></View>
-                    </View>
+                    {
+                    AIimage ? (
+                        <View style={[styles.container, styles.shadowProp]}>
+                            <View style={styles.viewContainer}><Image source={{uri: AIimage}} style={{
+                                width: 300,
+                                height: 500,
+                                borderRadius: '20px'
+                            }}/></View>
+                        </View>
+                    ) : (
+                        <View style={[styles.container, styles.shadowProp]}>
+                            <View style={styles.viewContainer}><Text style={styles.title}>{title}</Text></View>
+                            <View style={styles.viewContainer}><Text style={styles.barcode}>{barcode}</Text></View>
+                            <View style={styles.viewContainer}><Image source={{uri: image}} style={styles.image}/></View>
+                        </View>
+                    )
+                        
+                    }
+                    
                     <View style={styles.container}>
                         {
                         isRecyclable === true ? (
