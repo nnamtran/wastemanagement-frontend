@@ -21,8 +21,8 @@ const ResultScreen = () => {
     const [item, setItem] = useState(null)
     const [isRecyclable, setIsRecyclable] = useState(null)
     const [title, setTitle] = useState('');
-    const [image, setImage] = useState('...Loading');
-    const [AIimage, setAIimage] = useState('...Loading');
+    const [image, setImage] = useState();
+    const [AIimage, setAIimage] = useState();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [instructionTitle, setInstructionTitle] = useState('')
     const [instruction, setInstruction] = useState('')
@@ -161,31 +161,36 @@ const ResultScreen = () => {
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
                     >
-                    {
-                    AIimage ? (
-                        <View style={[styles.container, styles.shadowProp]}>
-                            <View style={styles.viewContainer}><Image source={{uri: AIimage}} style={{
-                                width: 300,
-                                height: 500,
-                                borderRadius: '20px'
-                            }}/></View>
-                        </View>
-                    ) : (
-                        <View style={[styles.container, styles.shadowProp]}>
-                            <View style={styles.viewContainer}><Text style={styles.title}>{title}</Text></View>
-                            <View style={styles.viewContainer}><Text style={styles.barcode}>{barcode}</Text></View>
-                            <View style={styles.viewContainer}><Image source={{uri: image}} style={styles.image}/></View>
-                        </View>
-                    )
-                        
-                    }
+                    <View style={styles.container}>
+                        {
+                        AIimage ? (
+                            <View>
+                                <View style={styles.viewContainer}><Image source={{uri: AIimage}} style={{
+                                    width: 300,
+                                    height: 500,
+                                    borderRadius: '20px'
+                                }}/></View>
+                            </View>
+                        ) 
+                        : image ? (
+                            <View>
+                                <View style={styles.viewContainer}><Text style={styles.title}>{title}</Text></View>
+                                <View style={styles.viewContainer}><Text style={styles.barcode}>{barcode}</Text></View>
+                                <View style={styles.viewContainer}><Image source={{uri: image}} style={styles.image}/></View>
+                            </View> 
+                        )
+                        : (
+                            <View></View>
+                        )
+                        }
+                    </View>
                     
                     <View style={styles.container}>
                         {
                         isRecyclable === true ? (
                             <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
                                 <Image source={require('../images/bin/yellow-bin.png')} style={{width: 250, height: 350}}/>
-                                <Text style={{textAlign: 'center', fontSize: 24, fontFamily: 'JetBrains'}}>Place the item in <Text style={{color: '#ffd10a', fontFamily: 'JetBrainsBold', fontSize: 28}}>yellow bin</Text></Text>
+                                <Text style={{textAlign: 'center', fontSize: 28, fontFamily: 'JetBrains'}}>Place the item in <Text style={{color: '#ffd10a', fontFamily: 'JetBrainsBold', fontSize: 30}}>yellow bin</Text></Text>
                             </View>
                         ) 
                         : isRecyclable === null ? (
@@ -219,7 +224,7 @@ const ResultScreen = () => {
                         : isRecyclable === false ? (
                                 <View style={{flex:1, justifyContent: 'center', alignItems: 'center', width: '80%'}}>
                                 <Image source={require('../images/bin/red-bin.png')} style={{width: 250, height: 350}}/>
-                                <Text style={{textAlign: 'center', fontSize: 24, fontFamily: 'JetBrains'}}>Place the item in <Text style={{color: '#ff2745', fontFamily: 'JetBrainsBold', fontSize: 28}}>red bin</Text></Text>
+                                <Text style={{textAlign: 'center', fontSize: 28, fontFamily: 'JetBrains'}}>Place the item in <Text style={{color: '#ff2745', fontFamily: 'JetBrainsBold', fontSize: 30}}>red bin</Text></Text>
                             </View>
                         )
                         : (

@@ -77,33 +77,7 @@ const AICamera = () => {
                 photo: photo.uri
             });
 
-            // This function is for sharing the photo
-            // shareAsync(photo.uri).then(() => {
-            //     setPhoto(undefined);
-            // });
-
-
-            // Sending Photo to AI model here: Follow this format
-            // try {
-            //     let config = { 
-            //         headers: {  
-            //             'Content-Type': 'application/json',
-            //             'Access-Control-Allow-Origin': '*'
-            //         }
-            //     }
-            //     const response = await axios.post('http://127.0.0.1:5000/',
-            //     {label: 'Test', text: 'Test'}, config
-            //     )
-
-            //     // This is the response from AI server
-            //     console.log(response.status) // It should be 201 for success, 404 for page not found, etc...
-            //     console.log(response.data) // this should be recycle or not recycle
-
-            //     // If the console.log(response.data) give results such as recycle or general waste then success. DONE
-
-            // } catch(err) {
-            //     console.log(err)
-            // }
+        
         };
 
         const savePhoto = () => {
@@ -115,7 +89,7 @@ const AICamera = () => {
         return (
             <View style={styles.container}>
                 <Image style={styles.preview} source={{uri: "data:image/jpg;base64," + photo.base64}}/>
-                <Button title="Share" onPress={sharePic} />
+                <Button title="Analyse" onPress={sharePic} />
                 {mediaLib ? <Button title='Save' onPress={savePhoto}/> : undefined}
                 <Button title='Discard' onPress={() => setPhoto(undefined)}/>
             </View>
